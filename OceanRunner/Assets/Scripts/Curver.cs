@@ -2,36 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Curver : MonoBehaviour {
+public class Curver {
 	//arrayToCurve is original Vector3 array, smoothness is the number of interpolations. 
-	public static Vector3[] MakeSmoothCurve(Vector3[] arrayToCurve,float smoothness){
-		List<Vector3> points;
-		List<Vector3> curvedPoints;
-		int pointsLength = 0;
-		int curvedLength = 0;
+	public static Vector2[] MakeSmoothCurve(Vector2[] points ,int inbetween){
+		// Eg. inbetween = 2: result will be o1 n2 n3 o4 n5 n6 o7 ...
+		Vector2[] result = new Vector2[(points.Length - 1) * (inbetween + 1) + 1];
+		Vector2 p0, p1, p2, p3;
+		for (int i = 0; i < points.Length - 1; i++) {
+			if (i == 0)
+				p0 = points [i];
+			else
+				p0 = points [i - 1];
+			if (i == points.Length - 2)
+				p3 = points [i + 1];
+			else
+				p3 = points [i + 2];
+			p1 = points [i];
+			p2 = points [i + 1];
+			result [i * (inbetween + 1)] = p1;
+			for (int j = 0; j < inbetween; j++) {
+				float t = ((float)j) / ((float)inbetween);
 
-		if(smoothness < 1.0f) smoothness = 1.0f;
-
-		pointsLength = arrayToCurve.Length;
-
-		curvedLength = (pointsLength*Mathf.RoundToInt(smoothness))-1;
-		curvedPoints = new List<Vector3>(curvedLength);
-
-		float t = 0.0f;
-		for(int pointInTimeOnCurve = 0;pointInTimeOnCurve < curvedLength+1;pointInTimeOnCurve++){
-			t = Mathf.InverseLerp(0,curvedLength,pointInTimeOnCurve);
-
-			points = new List<Vector3>(arrayToCurve);
-
-			for(int j = pointsLength-1; j > 0; j--){
-				for (int i = 0; i < j; i++){
-					points[i] = (1-t)*points[i] + t*points[i+1];
-				}
+				result [i * (inbetween + 1) + j + 1] = 0.5f * ((2 * p1) +
+				(-p0 + p2) * t +
+				(2 * p0 - 5 * p1 + 4 * p2 - p3) * Mathf.Pow (t, 2) +
+				(-p0 + 3 * p1 - 3 * p2 + p3) * Mathf.Pow (t, 3));
 			}
-
-			curvedPoints.Add(points[0]);
 		}
-
-		return(curvedPoints.ToArray());
+		result [result.Length - 1] = points[points.Length-1];
+		return result;
 	}
 }
