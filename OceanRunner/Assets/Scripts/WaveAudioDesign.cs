@@ -8,14 +8,13 @@ public class WaveAudioDesign : MonoBehaviour {
 	private Vector3 startPos;
 	private Vector3 endPos;
 
-
+	private bool playAudio = false;
+	private AudioSource audioFile;
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("here");	
-		AudioSource audioFile = GetComponent<AudioSource> ();
+		audioFile = GetComponent<AudioSource> ();
 
 		float[] audiosamples = new float[audioFile.clip.samples * audioFile.clip.channels];
-		Debug.Log (audioFile.clip.channels);
 
 		int runtime = (int)audioFile.clip.length;
 		int i_sample = runtime * 2;
@@ -85,8 +84,12 @@ public class WaveAudioDesign : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-		if (Time.realtimeSinceStartup < 4)
+		if (Time.realtimeSinceStartup < 4) {
 			return;
+		} else if(playAudio == false){
+			audioFile.Play ();
+			playAudio = true;
+		}
 		Camera.main.transform.position = 
 			new Vector3 (Camera.main.transform.position.x + Time.deltaTime * 2, 
 					     Camera.main.transform.position.y, 

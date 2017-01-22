@@ -44,7 +44,7 @@ public class MicrophoneInput : MonoBehaviour {
 			float force = multiplier * Mathf.Exp(value);
 			//multiplier = Mathf.Max (multiplier - 0.5f, 0f);
 			GetComponent<Rigidbody2D> ().AddForce (new Vector2 ( force,0));
-			Debug.Log ("OK: " + force);
+			//Debug.Log ("OK: " + force);
 		} else {
 			multiplier = multiplierStart;
 		}
