@@ -5,14 +5,10 @@ using UnityEngine;
 
 public class MicrophoneInput : MonoBehaviour {
 
-	[SerializeField]
-	private float multiplierStart = 50f;
-
 	private AudioSource audio;
 	private float[] chunk = new float[100];
 	private float normalize = - 1f;
 	private int normalizeLength = 44100*4;
-	private float multiplier; // Mutliplier for force added goes to zero over time
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +18,6 @@ public class MicrophoneInput : MonoBehaviour {
 		while (!(Microphone.GetPosition (null) > 0)) {
 		} // Wait for mic to initialize
 		//audio.Play();
-		multiplier = multiplierStart;
 	}
 	
 	// Update is called once per frame
@@ -41,12 +36,10 @@ public class MicrophoneInput : MonoBehaviour {
 			}
 			return;
 		} else if (value > normalize) {
-			float force = multiplier * Mathf.Exp(value);
+			float force = Utils.sensitivity * Mathf.Exp(value);
 			//multiplier = Mathf.Max (multiplier - 0.5f, 0f);
 			GetComponent<Rigidbody2D> ().AddForce (new Vector2 ( force,0));
 			//Debug.Log ("OK: " + force);
-		} else {
-			multiplier = multiplierStart;
 		}
 		//Debug.Log ("yeah: " + chunk[0]);
 	}
