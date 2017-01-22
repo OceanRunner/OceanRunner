@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class WaveAudioDesign : MonoBehaviour {
 
+	[SerializeField]
+	private Material lineMaterial;
+
 	private LineRenderer lineRend;
 	private Vector3 startPos;
 	private Vector3 endPos;
@@ -17,7 +20,7 @@ public class WaveAudioDesign : MonoBehaviour {
 		float[] audiosamples = new float[audioFile.clip.samples * audioFile.clip.channels];
 
 		int runtime = (int)audioFile.clip.length;
-		int i_sample = runtime * 2;
+		int i_sample = (int)(runtime * 4.0f /Utils.gameSpeed * Utils.freqency);
 		int times = (int)(((audiosamples.Length) / 2) / i_sample);
 
 		Vector3[] normalized_samples = new Vector3[i_sample];
@@ -29,23 +32,39 @@ public class WaveAudioDesign : MonoBehaviour {
 		int k = 0;
 		while (k < i_sample) {
 			if (i == j) {
-				normalized_samples [k] = new Vector3 (k, (audiosamples [i] * 1F), 0f);
+				normalized_samples [k] = new Vector3 (Utils.gameSpeed*Utils.gameSpeed/4f*(float)k/Utils.freqency + transform.position.x, audiosamples [i],  transform.position.z);
 				j = i + (times - 1);
 				++k;
 			}
 			++i;
 		}
 
-		Vector3[] smoothed = Curver.MakeSmoothCurve (normalized_samples, 6);
+		// some scaling
+		float min = float.MaxValue, max = float.MinValue;
+		for (i = 0; i < normalized_samples.Length; i++) {
+			if (normalized_samples [i].y < min)
+				min = normalized_samples [i].y;
+			if (normalized_samples [i].y > max)
+				max = normalized_samples [i].y;
+		}
 
-		Color lineColour = Color.blue;
+		// scale it to +/- 1
+		for (i = 0; i < normalized_samples.Length; i++) {
+			normalized_samples [i].y = ((normalized_samples [i].y - min) / (max - min) - 0.5f)*2*Utils.amplitude  + transform.position.y; // Plus adding the parent transform here
+		}
 
+		Vector3[] smoothed = Utils.MakeSmoothCurve (normalized_samples, (int)(6));
+		Debug.Log("Normalize with: " +  (int)(12/Utils.gameSpeed/Utils.freqency));
+		//Vector3[] smoothed = normalized_samples;
+		smoothed [0].x -= 20;
+		smoothed [smoothed.Length-1].x += 20;
+
+
+		// Drawing Line
 		k = smoothed.Length;
 		// Setting the parameters of the line
 		lineRend = gameObject.AddComponent<LineRenderer> ();
-		lineRend.material = new Material (Shader.Find ("Diffuse"));
-		lineRend.startColor = lineColour;
-		lineRend.endColor = lineColour;
+		lineRend.material = lineMaterial;
 		lineRend.startWidth = 0.2F;
 		lineRend.endWidth = 0.2F;
 
@@ -60,7 +79,7 @@ public class WaveAudioDesign : MonoBehaviour {
 			endPos = smoothed [i + 1];
 
 			BoxCollider2D col = new GameObject ("Collider").AddComponent<BoxCollider2D> ();
-
+			col.transform.parent = transform;
 			float lineLength = Vector3.Distance (startPos, endPos); // length of line
 			col.size = new Vector3 (lineLength, 0.1f, 1f); // size of collider is set where X is length of line, Y is width of line, Z will be set as per requirement
 			Vector3 midPoint = (startPos + endPos) / 2;
@@ -84,14 +103,14 @@ public class WaveAudioDesign : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-		if (Time.realtimeSinceStartup < 4) {
+		if (Time.realtimeSinceStartup < Utils.calibrationTime){
 			return;
 		} else if(playAudio == false){
 			audioFile.Play ();
 			playAudio = true;
 		}
 		Camera.main.transform.position = 
-			new Vector3 (Camera.main.transform.position.x + Time.deltaTime * 2, 
+			new Vector3 (Camera.main.transform.position.x + Time.deltaTime * Utils.gameSpeed, 
 					     Camera.main.transform.position.y, 
 						 Camera.main.transform.position.z);
 

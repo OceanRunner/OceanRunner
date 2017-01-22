@@ -5,12 +5,12 @@ using UnityEngine;
 public class CloudGenerator : MonoBehaviour {
 
 	[SerializeField]
-	private float speed = 3;
+	private float speed = 0.2f;
 
 	[SerializeField]
 	private int numberOfClouds = 4;
 
-	GameObject[] cloud;
+	GameObject[] clouds;
 	enum cloud_type {Cloud1, Cloud2, Cloud3, Cloud4}; 
 	int rnd_cloud_i;
 	float rnd_x;
@@ -26,17 +26,18 @@ public class CloudGenerator : MonoBehaviour {
 		cloud_type cloudType = (cloud_type)rnd_cloud_i;
 		rnd_cloud = cloudType.ToString();
 
-		cloud[i] = Instantiate(Resources.Load(rnd_cloud, typeof(GameObject))) as GameObject;	
-		rnd_x = Random.Range (11, 35) + Camera.main.transform.position.x;
-		rnd_y = Random.Range (2, 5) + Camera.main.transform.position.y;
+		clouds[i] = Instantiate(Resources.Load(rnd_cloud, typeof(GameObject))) as GameObject;	
+		rnd_x = Random.Range (16f + i*35f/numberOfClouds, 16f + (i+1)*35f/numberOfClouds) + Camera.main.transform.position.x;
+		rnd_y = Random.Range (2f, 5f) + Camera.main.transform.position.y;
 
-		cloud[i].transform.position = new Vector3 (rnd_x, rnd_y, 50);
+		clouds [i].transform.parent = transform;
+		clouds[i].transform.localPosition = new Vector3 (rnd_x, rnd_y, 0);
 
 	}
 
 	// Use this for initialization
 	void Start () { 
-		cloud = new GameObject[numberOfClouds];
+		clouds = new GameObject[numberOfClouds];
 		for (int i = 0; i < numberOfClouds; i++) {
 			CreateCloud(i);
 		}
@@ -44,11 +45,13 @@ public class CloudGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Time.realtimeSinceStartup < Utils.calibrationTime)
+			return;
 		for (int i = 0; i < numberOfClouds; i++) {
-			Debug.Log (i + "; " + speed);
-			cloud[i].transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);
+			clouds[i].transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);
 
-			if (cloud[i].transform.position.x < -12 + Camera.main.transform.position.x) { // end of the line
+			if (clouds[i].transform.localPosition.x < -16) { // end of the line
+				Destroy(clouds[i]);
 				CreateCloud (i);
 			}
 		}
