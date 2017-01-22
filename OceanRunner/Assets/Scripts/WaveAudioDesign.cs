@@ -31,6 +31,8 @@ public class WaveAudioDesign : MonoBehaviour {
 
 		float[] audiosamples = new float[audioFile.clip.samples * audioFile.clip.channels];
 
+		Utils.songLength = audioFile.clip.length;
+
 		int runtime = (int)audioFile.clip.length;
 		int i_sample = (int)(runtime * 4.0f /Utils.gameSpeed * Utils.freqency);
 		int times = (int)(((audiosamples.Length) / 2) / i_sample);

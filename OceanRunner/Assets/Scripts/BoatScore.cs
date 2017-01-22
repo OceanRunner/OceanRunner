@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BoatScore : MonoBehaviour {
 
@@ -23,6 +24,12 @@ public class BoatScore : MonoBehaviour {
 			score++;
 			scoreLabel.text = "Score: " + score;
 			Destroy (other.gameObject);
+		}
+
+		if (transform.position.x > Utils.songLength * Utils.gameSpeed) {
+			// We are winning!
+			Utils.score = score;
+			SceneManager.LoadScene (1);
 		}
 	}
 }

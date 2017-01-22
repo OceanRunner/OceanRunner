@@ -7,12 +7,14 @@ public class Utils{
 	public static int calibrationTime = 4;
 
 	public static float gameSpeed = 3;
-	public static float amplitude = 1.5f;
+	public static float amplitude = 0.5f;
 	public static float freqency = 1.5f;
-	public static string filename = "C:\\Users\\orakeldel\\Downloads\\castle.ogg";
+	public static string filename = "C:\\Users\\orakeldel\\Downloads\\gummy.ogg";
 	public static float volume = 0.5f;
 
 	public static float sensitivity = 10;
+
+	public static float songLength;
 
 	public static int score = 0;
 
