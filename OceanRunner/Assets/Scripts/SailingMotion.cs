@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoatAnimation : MonoBehaviour {
+public class SailingMotion : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
