@@ -10,6 +10,9 @@ public class WaveAudioDesign : MonoBehaviour {
 	[SerializeField]
 	private GameObject coin;
 
+	[SerializeField]
+	private Transform goal;
+
 	private LineRenderer lineRend;
 	private Vector3 startPos;
 	private Vector3 endPos;
@@ -32,6 +35,9 @@ public class WaveAudioDesign : MonoBehaviour {
 		float[] audiosamples = new float[audioFile.clip.samples * audioFile.clip.channels];
 
 		Utils.songLength = audioFile.clip.length;
+
+		// Set goal to end of song
+		goal.position = new Vector3(Utils.songLength*Utils.gameSpeed, goal.position.y, goal.position.z);
 
 		int runtime = (int)audioFile.clip.length;
 		int i_sample = (int)(runtime * 4.0f /Utils.gameSpeed * Utils.freqency);
@@ -69,6 +75,8 @@ public class WaveAudioDesign : MonoBehaviour {
 
 		Vector3[] coins = Utils.MakeCoinPlacement (normalized_samples, 1);
 
+		Utils.scoreMax = coins.Length;
+
 		for (i = 0; i < coins.Length; i++) {
 			GameObject newCoin = Instantiate (coin);
 			newCoin.transform.parent = transform;
@@ -76,7 +84,7 @@ public class WaveAudioDesign : MonoBehaviour {
 		}
 
 		Vector3[] smoothed = Utils.MakeSmoothCurve (normalized_samples, (int)(6));
-		Debug.Log("Normalize with: " +  (int)(12/Utils.gameSpeed/Utils.freqency));
+		//Debug.Log("Normalize with: " +  (int)(12/Utils.gameSpeed/Utils.freqency));
 		//Vector3[] smoothed = normalized_samples;
 		smoothed [0].x -= 20;
 		smoothed [smoothed.Length-1].x += 20;

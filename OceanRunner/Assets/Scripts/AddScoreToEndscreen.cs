@@ -7,7 +7,7 @@ public class AddScoreToEndscreen : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GetComponent<Text> ().text = "You scored: " + Utils.score;
+		GetComponent<Text> ().text = "You scored: " + Utils.score + " out of " + Utils.scoreMax;
 	}
 	
 	// Update is called once per frame

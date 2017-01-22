@@ -17,6 +17,7 @@ public class Utils{
 	public static float songLength;
 
 	public static int score = 0;
+	public static int scoreMax = 0;
 
 	/**
 	 * Calculate camera bounds.
