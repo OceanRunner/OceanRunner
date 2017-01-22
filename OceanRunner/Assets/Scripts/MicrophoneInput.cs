@@ -13,7 +13,6 @@ public class MicrophoneInput : MonoBehaviour {
 	private float normalize = - 1f;
 	private int normalizeLength = 44100*4;
 	private float multiplier; // Mutliplier for force added goes to zero over time
-	private bool firstRun = true;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +33,7 @@ public class MicrophoneInput : MonoBehaviour {
 			sum += Mathf.Abs(chunk[i]);
 		}
 		float value = sum / chunk.Length;
-		if (Microphone.GetPosition (null) < normalizeLength && firstRun) {
+		if (Time.realtimeSinceStartup < 4) {
 			if (normalize < 0) {
 				normalize = value;
 			} else {
@@ -42,16 +41,13 @@ public class MicrophoneInput : MonoBehaviour {
 			}
 			return;
 		} else if (value > normalize) {
-			firstRun = false;
-			float force = 10 * Mathf.Exp(value);
+			float force = multiplier * Mathf.Exp(value);
 			//multiplier = Mathf.Max (multiplier - 0.5f, 0f);
 			GetComponent<Rigidbody2D> ().AddForce (new Vector2 ( force,0));
 			Debug.Log ("OK: " + force);
 		} else {
 			multiplier = multiplierStart;
 		}
-		if (firstRun)
-			Debug.Log (normalize);
 		//Debug.Log ("yeah: " + chunk[0]);
 	}
 }

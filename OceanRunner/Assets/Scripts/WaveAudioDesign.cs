@@ -67,6 +67,7 @@ public class WaveAudioDesign : MonoBehaviour {
 			Vector3 midPoint = (startPos + endPos) / 2;
 			col.transform.position = midPoint; // setting position of collider object
 			// Following lines calculate the angle between startPos and endPos
+			col.sharedMaterial = (PhysicsMaterial2D)Resources.Load("PhysicsMaterial2D/Slippy");
 			float angle = (Mathf.Abs (startPos.y - endPos.y) / Mathf.Abs (startPos.x - endPos.x));
 			if ((startPos.y < endPos.y && startPos.x > endPos.x) || (endPos.y < startPos.y && endPos.x > startPos.x)) {
 				angle *= -1;
@@ -84,6 +85,8 @@ public class WaveAudioDesign : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
+		if (Time.realtimeSinceStartup < 4)
+			return;
 		Camera.main.transform.position = 
 			new Vector3 (Camera.main.transform.position.x + Time.deltaTime * 2, 
 					     Camera.main.transform.position.y, 
