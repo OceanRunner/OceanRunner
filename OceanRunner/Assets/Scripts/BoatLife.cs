@@ -5,7 +5,6 @@ using UnityEngine;
 public class BoatLife : MonoBehaviour {
 
 	public GameObject lifeObj;
-	public GameObject scoreLabel;
 
 	public int life = 3;
 
@@ -18,9 +17,6 @@ public class BoatLife : MonoBehaviour {
 			lifeObjs [i].transform.parent = Camera.main.transform;
 			lifeObjs [i].transform.position = new Vector3 (Utils.getCameraBounds().max.x - (i+1)*1.3f, Utils.getCameraBounds().max.y - 1f, -5f);
 		}
-		RectTransform rect = scoreLabel.GetComponent<RectTransform> ();
-		RectTransform parentRect = scoreLabel.transform.parent.gameObject.GetComponent<RectTransform> ();
-		rect.transform.position = new Vector3(-parentRect.rect.width / 2 + 450, parentRect.rect.height/2f-80, 0f);
 	}
 
 	void ResetBoat () {
@@ -34,8 +30,8 @@ public class BoatLife : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (transform.position.x < Utils.getCameraBounds().min.x || transform.position.x > Utils.getCameraBounds().max.x ||
-			(transform.rotation.eulerAngles.z < -140 && transform.rotation.eulerAngles.z > -180) || 
-			(transform.rotation.eulerAngles.z > 140 && transform.rotation.eulerAngles.z < 220) ) {
+			(transform.rotation.eulerAngles.z < -120 && transform.rotation.eulerAngles.z > -180) || 
+			(transform.rotation.eulerAngles.z > 120 && transform.rotation.eulerAngles.z < 240) ) {
 			life--;
 			if (life >= 0) {
 				lifeObjs [life].SetActive (false);
