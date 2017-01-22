@@ -9,7 +9,7 @@ public class Utils{
 	public static float gameSpeed = 3;
 	public static float amplitude = 0.5f;
 	public static float freqency = 1.5f;
-	public static string filename = "C:\\Users\\orakeldel\\Downloads\\gummy.ogg";
+	public static string filename = Application.dataPath + "/sample.ogg";
 	public static float volume = 0.5f;
 
 	public static float sensitivity = 10;
