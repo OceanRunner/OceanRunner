@@ -37,7 +37,7 @@ public class SettingsManager : MonoBehaviour {
 		Utils.freqency = samplerate.value;
 		Utils.gameSpeed = speed.value;
 		Utils.sensitivity = sensitivity.value;
-		SceneManager.LoadScene ("Main");
+		SceneManager.LoadScene ("Menu");
 	}
 
 	public void changeSens() {

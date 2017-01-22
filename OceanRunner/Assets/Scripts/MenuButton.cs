@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour {
 	public void PushPlay() {
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene("Main");
 		//		Application.LoadLevel("Main");
 	}
 
 	public void Settings() {
-		SceneManager.LoadScene(2);
+		SceneManager.LoadScene("Settings");
 		//		Application.LoadLevel("Main");
 	}
 	public void Exit() {
