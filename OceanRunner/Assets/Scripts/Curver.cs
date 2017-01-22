@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Curver {
 	//arrayToCurve is original Vector3 array, smoothness is the number of interpolations. 
-	public static Vector2[] MakeSmoothCurve(Vector2[] points ,int inbetween){
+	public static Vector3[] MakeSmoothCurve(Vector3[] points ,int inbetween){
 		// Eg. inbetween = 2: result will be o1 n2 n3 o4 n5 n6 o7 ...
-		Vector2[] result = new Vector2[(points.Length - 1) * (inbetween + 1) + 1];
-		Vector2 p0, p1, p2, p3;
+		Vector3[] result = new Vector3[(points.Length - 1) * (inbetween + 1) + 1];
+		Vector3 p0, p1, p2, p3;
 		for (int i = 0; i < points.Length - 1; i++) {
 			if (i == 0)
 				p0 = points [i];
