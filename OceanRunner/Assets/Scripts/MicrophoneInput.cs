@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MicrophoneInput : MonoBehaviour {
 
@@ -41,7 +42,14 @@ public class MicrophoneInput : MonoBehaviour {
 			GetComponent<Rigidbody2D> ().AddForce (new Vector2 ( force,0));
 			//Debug.Log ("OK: " + force);
 		}
-		//Debug.Log ("yeah: " + chunk[0]);
+		//Debug.Log ("yeah: " + chunk[0]);#
+
+
+		if (transform.position.x > Utils.songLength * Utils.gameSpeed) {
+			// We are winning!
+			Utils.score = GetComponent<BoatScore>().score;
+			SceneManager.LoadScene ("Win");
+		}
 	}
 }
 

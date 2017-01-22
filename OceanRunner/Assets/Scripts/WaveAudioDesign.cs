@@ -128,7 +128,7 @@ public class WaveAudioDesign : MonoBehaviour {
 		if (Time.timeSinceLevelLoad < Utils.calibrationTime){
 			return;
 		} else if(playAudio == false){
-			//audioFile.volume = Utils.volume;
+			audioFile.volume = Utils.volume;
 			audioFile.Play ();
 			playAudio = true;
 		}
