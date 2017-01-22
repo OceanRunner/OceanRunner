@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BoatLife : MonoBehaviour {
 
@@ -37,6 +38,10 @@ public class BoatLife : MonoBehaviour {
 				lifeObjs [life].SetActive (false);
 			}
 			ResetBoat ();
+			if (life < 0) {
+				Utils.score = GetComponent<BoatScore>().score;
+				SceneManager.LoadScene ("GameOver");
+			}
 		} 
 	}
 }

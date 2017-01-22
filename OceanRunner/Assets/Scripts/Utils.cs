@@ -14,6 +14,8 @@ public class Utils{
 
 	public static float sensitivity = 10;
 
+	public static int score = 0;
+
 	/**
 	 * Calculate camera bounds.
 	 * http://answers.unity3d.com/questions/501893/calculating-2d-camera-bounds.html

@@ -10,7 +10,7 @@ public class BoatScore : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		score = 0;
 	}
 	
 	// Update is called once per frame
