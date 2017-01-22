@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Utils{
 
-	public static int calibrationTime = 3;
+	public static int calibrationTime = 4;
 
 	public static float gameSpeed = 3;
 	public static float amplitude = 1.5f;
-	public static float freqency = 2f;
+	public static float freqency = 1.5f;
 
 	/**
 	 * Calculate camera bounds.
@@ -48,6 +48,15 @@ public class Utils{
 			}
 		}
 		result [result.Length - 1] = points[points.Length-1];
+		return result;
+	}
+
+	public static Vector3[] MakeCoinPlacement (Vector3[] points, int shift)
+	{
+		Vector3[] result = new Vector3[points.Length - shift];
+		for (int i = shift; i < points.Length; i++) {
+			result [i - shift] = new Vector3 (points[i].x, Mathf.Max(points[i].y, points[i-shift].y) + .5f, points[i].z);
+		}
 		return result;
 	}
 }

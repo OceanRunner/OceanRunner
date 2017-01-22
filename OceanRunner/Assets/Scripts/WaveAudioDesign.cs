@@ -7,6 +7,9 @@ public class WaveAudioDesign : MonoBehaviour {
 	[SerializeField]
 	private Material lineMaterial;
 
+	[SerializeField]
+	private GameObject coin;
+
 	private LineRenderer lineRend;
 	private Vector3 startPos;
 	private Vector3 endPos;
@@ -51,6 +54,14 @@ public class WaveAudioDesign : MonoBehaviour {
 		// scale it to +/- 1
 		for (i = 0; i < normalized_samples.Length; i++) {
 			normalized_samples [i].y = ((normalized_samples [i].y - min) / (max - min) - 0.5f)*2*Utils.amplitude  + transform.position.y; // Plus adding the parent transform here
+		}
+
+		Vector3[] coins = Utils.MakeCoinPlacement (normalized_samples, 1);
+
+		for (i = 0; i < coins.Length; i++) {
+			GameObject newCoin = Instantiate (coin);
+			newCoin.transform.parent = transform;
+			newCoin.transform.position = coins [i];
 		}
 
 		Vector3[] smoothed = Utils.MakeSmoothCurve (normalized_samples, (int)(6));
