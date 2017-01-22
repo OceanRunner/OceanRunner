@@ -33,7 +33,7 @@ public class MicrophoneInput : MonoBehaviour {
 			sum += Mathf.Abs(chunk[i]);
 		}
 		float value = sum / chunk.Length;
-		if (Time.realtimeSinceStartup < 4) {
+		if (Time.timeSinceLevelLoad < Utils.calibrationTime) {
 			if (normalize < 0) {
 				normalize = value;
 			} else {

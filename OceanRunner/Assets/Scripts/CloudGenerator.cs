@@ -45,7 +45,7 @@ public class CloudGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.realtimeSinceStartup < Utils.calibrationTime)
+		if (Time.timeSinceLevelLoad < Utils.calibrationTime)
 			return;
 		for (int i = 0; i < numberOfClouds; i++) {
 			clouds[i].transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);

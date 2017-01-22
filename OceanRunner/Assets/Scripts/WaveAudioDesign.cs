@@ -10,6 +10,8 @@ public class WaveAudioDesign : MonoBehaviour {
 	[SerializeField]
 	private GameObject coin;
 
+	public string url;
+
 	private LineRenderer lineRend;
 	private Vector3 startPos;
 	private Vector3 endPos;
@@ -18,7 +20,16 @@ public class WaveAudioDesign : MonoBehaviour {
 	private AudioSource audioFile;
 	// Use this for initialization
 	void Start () {
-		audioFile = GetComponent<AudioSource> ();
+
+
+		WWW www = new WWW(url);
+
+		audioFile = GetComponent<AudioSource>();
+		audioFile.clip = www.audioClip;
+
+		while (audioFile.clip.loadState != AudioDataLoadState.Loaded) {}
+
+		//audioFile = GetComponent<AudioSource> ();
 
 		float[] audiosamples = new float[audioFile.clip.samples * audioFile.clip.channels];
 
@@ -114,7 +125,7 @@ public class WaveAudioDesign : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-		if (Time.realtimeSinceStartup < Utils.calibrationTime){
+		if (Time.timeSinceLevelLoad < Utils.calibrationTime){
 			return;
 		} else if(playAudio == false){
 			audioFile.Play ();

@@ -40,7 +40,7 @@ public class IslandGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.realtimeSinceStartup < Utils.calibrationTime)
+		if (Time.timeSinceLevelLoad < Utils.calibrationTime)
 			return;
 		for (int i = 0; i < numberOfIslands; i++) {
 			islands[i].transform.Translate (Vector3.left * Time.deltaTime * speed, Space.World); // needed to be modified depends on velocity of the boat
