@@ -27,7 +27,7 @@ public class CloudGenerator : MonoBehaviour {
 		rnd_cloud = cloudType.ToString();
 
 		clouds[i] = Instantiate(Resources.Load(rnd_cloud, typeof(GameObject))) as GameObject;	
-		rnd_x = Random.Range (16f + i*35f/numberOfClouds, 16f + (i+1)*35f/numberOfClouds) + Camera.main.transform.position.x;
+		rnd_x = Random.Range (16f + i*35f/numberOfClouds, 16f + (i+1)*35f/numberOfClouds);
 		rnd_y = Random.Range (2f, 5f) + Camera.main.transform.position.y;
 
 		clouds [i].transform.parent = transform;
