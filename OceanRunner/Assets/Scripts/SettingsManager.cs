@@ -12,7 +12,6 @@ public class SettingsManager : MonoBehaviour {
 	public Slider samplerate;
 	public Slider speed;
 	public Slider sensitivity;
-	protected FileBrowser m_fileBrowser;
 
 
 	// Use this for initialization
@@ -50,13 +49,7 @@ public class SettingsManager : MonoBehaviour {
 	}
 
 	public void loadFile() {
-		m_fileBrowser = new FileBrowser(
-			new Rect(100, 100, 600, 500),
-			"Choose Text File",
-			loadFileToField
-		);
-		m_fileBrowser.SelectionPattern = "*.ogg";
-		//m_fileBrowser.DirectoryImage = m_directoryImage;
-		//m_fileBrowser.FileImage = m_fileImage;
+
+		GetComponent<Browser> ().OpenFile (Application.dataPath);
 	}
 }
