@@ -7,10 +7,10 @@ public class Utils{
 	public static int calibrationTime = 4;
 
 	public static float gameSpeed = 3;
-	public static float amplitude = 0.5f;
-	public static float freqency = 1.5f;
+	public static float amplitude = 1f;
+	public static float freqency = 1.2f;
 	public static string filename = Application.dataPath + "/sample.ogg";
-	public static float volume = 0.5f;
+	public static float volume = 0.8f;
 
 	public static float sensitivity = 10;
 

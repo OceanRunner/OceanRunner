@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class WaveAudioDesign : MonoBehaviour {
 
@@ -22,15 +23,18 @@ public class WaveAudioDesign : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		audioFile = GetComponent<AudioSource> ();
 
-		WWW www = new WWW("file://" + Utils.filename);
+		if (File.Exists (Utils.filename)) {
 
-		audioFile = GetComponent<AudioSource>();
-		audioFile.clip = www.audioClip;
+			WWW www = new WWW ("file://" + Utils.filename);
 
-		while (audioFile.clip.loadState != AudioDataLoadState.Loaded) {}
+			audioFile.clip = www.audioClip;
 
-		//audioFile = GetComponent<AudioSource> ();
+			while (audioFile.clip.loadState != AudioDataLoadState.Loaded) {
+			}
+
+		}
 
 		float[] audiosamples = new float[audioFile.clip.samples * audioFile.clip.channels];
 
